@@ -1,0 +1,22 @@
+{
+  "name"        : "cti/ics",
+  "description" : "ics management",
+  "type"        : "library",
+  "authors"     : [
+    {
+      "name"  : "Georgiana Gligor",
+      "email" : "gb@tekkie.ro"
+    },
+    {
+      "name"  : "Cloudtroopers PHPers",
+      "email" : "php@cloudtroopers.ro"
+    }
+  ],
+  "require" : {
+    "php" : ">=5.3.0"
+  },
+  "require-dev" : {
+    "phpunit/phpunit" : "4.7.x-dev"
+  },
+  "target-dir" : "Cti/Ics"
+}

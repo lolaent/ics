@@ -1,0 +1,4 @@
+### Vagrant template
+composer.lock
+vendor/
+coverage/
