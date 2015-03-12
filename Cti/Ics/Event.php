@@ -54,9 +54,10 @@ abstract class Event
 
     protected function toDateTime($value)
     {
-        $dateTime = new \DateTime($value);
-        if (is_null($dateTime)) {
-            throw new \LogicException(sprintf('Invalid date provideds: %s', $dateTime));
+        try {
+            $dateTime = new \DateTime($value);
+        } catch(\Exception $e) {
+            throw new \InvalidArgumentException(sprintf('Invalid date provided: %s', $value));
         }
 
         return $dateTime;
