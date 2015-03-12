@@ -37,7 +37,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $event = new Event\Interval('2015-03-11 12:34:56 Z', '2015-03-11 12:59:59 Z');
         $output = $this->generator->event($event)->getOutput();
 
-        $this->assertInternalType('string', $output);
+        $this->assertNonEmptyString($output);
         $this->assertEventWrapper($output);
         $this->assertContains('UID:', $output);
         $this->assertContains('DTSTART', $output);
@@ -52,7 +52,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $event = new Event\Interval('2015-03-11 12:34:56 Europe/Bucharest', '2015-03-11 12:59:59 Europe/Bucharest');
         $output = $this->generator->event($event)->getOutput();
 
-        $this->assertInternalType('string', $output);
+        $this->assertNonEmptyString($output);
         $this->assertEventWrapper($output);
         $this->assertContains('UID:', $output);
         $this->assertContains('DTSTART', $output);
@@ -67,7 +67,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $event = new Event\Interval('2015-03-11 12:34:56', '2015-03-11 12:59:59');
         $output = $this->generator->event($event)->getOutput();
 
-        $this->assertInternalType('string', $output);
+        $this->assertNonEmptyString($output);
         $this->assertEventWrapper($output);
         $this->assertContains('UID:', $output);
         $this->assertContains('DTSTART', $output);
@@ -90,24 +90,31 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function calendarWithOneEvent()
     {
+        $oldTimezone = date_default_timezone_get();
+        date_default_timezone_set('Europe/Amsterdam');
         $calendar = new Calendar();
         $calendar->add(new Event\Interval('2015-03-11 12:34:56 Z', '2015-03-11 12:59:59 Z'));
 
         $output = $this->generator->calendar($calendar)->getOutput();
+        date_default_timezone_set($oldTimezone);
 
-        $this->assertInternalType('string', $output);
+        $this->assertNonEmptyString($output);
         $this->assertCalendarWrapper($output);
+        $this->assertCalendarTimezone($output);
+        $this->assertContains('TZID:Europe/Amsterdam', $output);
         $this->assertEventWrapper($output);
-
-        $this->assertContains('PRODID', $output);
-        $this->assertContains('CALSCALE:GREGORIAN', $output);
-        $this->assertContains('VERSION:2.0', $output);
     }
 
     private function assertEmptyString($output)
     {
         $this->assertInternalType('string', $output);
         $this->assertEquals('', $output);
+    }
+
+    private function assertNonEmptyString($output)
+    {
+        $this->assertInternalType('string', $output);
+        $this->assertGreaterThan(0, strlen($output));
     }
 
     private function assertEventWrapper($output)
@@ -120,5 +127,16 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertContains('BEGIN:VCALENDAR', $output);
         $this->assertContains('END:VCALENDAR', $output);
+
+        $this->assertContains('PRODID', $output);
+        $this->assertContains('CALSCALE:GREGORIAN', $output);
+        $this->assertContains('VERSION:2.0', $output);
+    }
+
+    private function assertCalendarTimezone($output)
+    {
+        $this->assertContains('BEGIN:VTIMEZONE', $output);
+        $this->assertContains('TZID:', $output);
+        $this->assertContains('END:VTIMEZONE', $output);
     }
 }

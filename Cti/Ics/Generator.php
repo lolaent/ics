@@ -33,9 +33,14 @@ class Generator
         }
 
         $this->output .= "BEGIN:VCALENDAR\r\n";
+        $this->output .= "VERSION:2.0\r\n";
         $this->output .= sprintf("PRODID:-//%s//%s//EN\r\n", 'Cloudtroopers Intl', 'CTI Ics Generator 1.0');
         $this->output .= "CALSCALE:GREGORIAN\r\n";
-        $this->output .= "VERSION:2.0\r\n";
+
+        $this->output .= "BEGIN:VTIMEZONE\r\n";
+        $this->output .= sprintf("TZID:%s\r\n", $item->getTimezone());
+        $this->output .= "END:VTIMEZONE\r\n";
+
         foreach ($item->getAll() as $event) {
             $this->event($event);
         }

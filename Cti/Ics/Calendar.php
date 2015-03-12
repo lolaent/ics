@@ -16,6 +16,16 @@ class Calendar
     protected $events = array();
 
     /**
+     * @var string
+     */
+    protected $timezone;
+
+    public function __construct()
+    {
+        $this->setTimezone(date_default_timezone_get());
+    }
+
+    /**
      * Checks if current calendar contains any events.
      *
      * @return boolean
@@ -41,5 +51,25 @@ class Calendar
     public function getAll()
     {
         return $this->events;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return Calendar
+     */
+    public function setTimezone($value)
+    {
+        $this->timezone = $value;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTimezone()
+    {
+        return $this->timezone;
     }
 }
