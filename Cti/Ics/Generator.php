@@ -1,9 +1,19 @@
 <?php
 namespace Cti\Ics;
 
+use Cti\Ics\Output\OutputInterface;
+
 class Generator
 {
-    protected $output = '';
+    /**
+     * @var OutputInterface
+     */
+    protected $output;
+
+    public function __construct(OutputInterface $out)
+    {
+        $this->output = $out;
+    }
 
     /**
      * @param Event $item
@@ -17,14 +27,14 @@ class Generator
             return $this;
         }
 
-        $this->output .= "BEGIN:VEVENT\r\n";
-        $this->output .= sprintf("UID:%s\r\n", md5($item->getStart()->format('YmdHis')));
-        $this->output .= sprintf("DTSTART;TZID=%s:%s\r\n", $item->getStart()->getTimezone()->getName(), $item->getStart()->format('Ymd\THis'));
-        $this->output .= sprintf("DTEND;TZID=%s:%s\r\n", $item->getEnd()->getTimezone()->getName(), $item->getEnd()->format('Ymd\THis'));
+        $this->output->add('BEGIN:VEVENT');
+        $this->output->add(sprintf('UID:%s', md5($item->getStart()->format('YmdHis'))));
+        $this->output->add(sprintf('DTSTART;TZID=%s:%s', $item->getStart()->getTimezone()->getName(), $item->getStart()->format('Ymd\THis')));
+        $this->output->add(sprintf('DTEND;TZID=%s:%s', $item->getEnd()->getTimezone()->getName(), $item->getEnd()->format('Ymd\THis')));
         if (strlen($item->getName())) {
-            $this->output .= sprintf("SUMMARY:%s\r\n", $item->getName());
+            $this->output->add(sprintf('SUMMARY:%s', $item->getName()));
         }
-        $this->output .= "END:VEVENT\r\n";
+        $this->output->add('END:VEVENT');
 
         return $this;
     }
@@ -35,22 +45,22 @@ class Generator
             return $this;
         }
 
-        $this->output .= "BEGIN:VCALENDAR\r\n";
-        $this->output .= "VERSION:2.0\r\n";
-        $this->output .= sprintf("PRODID:-//%s//%s//EN\r\n", 'Cloudtroopers Intl', 'CTI Ics Generator 1.0');
-        $this->output .= "CALSCALE:GREGORIAN\r\n";
+        $this->output->add('BEGIN:VCALENDAR');
+        $this->output->add('VERSION:2.0');
+        $this->output->add(sprintf('PRODID:-//%s//%s//EN', 'Cloudtroopers Intl', 'CTI Ics Generator 1.0'));
+        $this->output->add('CALSCALE:GREGORIAN');
         if (strlen($item->getName())) {
-            $this->output .= sprintf("X-WR-CALNAME:%s\r\n", $item->getName());
+            $this->output->add(sprintf('X-WR-CALNAME:%s', $item->getName()));
         }
 
-        $this->output .= "BEGIN:VTIMEZONE\r\n";
-        $this->output .= sprintf("TZID:%s\r\n", $item->getTimezone());
-        $this->output .= "END:VTIMEZONE\r\n";
+        $this->output->add('BEGIN:VTIMEZONE');
+        $this->output->add(sprintf('TZID:%s', $item->getTimezone()));
+        $this->output->add('END:VTIMEZONE');
 
         foreach ($item->getAll() as $event) {
             $this->event($event);
         }
-        $this->output .= "END:VCALENDAR\r\n";
+        $this->output->add('END:VCALENDAR');
 
         return $this;
     }

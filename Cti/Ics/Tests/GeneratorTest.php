@@ -5,6 +5,7 @@ namespace Cti\Ics\Tests;
 use Cti\Ics\Generator;
 use Cti\Ics\Event;
 use Cti\Ics\Calendar;
+use Cti\Ics\Output\StringOutput;
 
 class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,7 +16,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->generator = new Generator();
+        $this->generator = new Generator(new StringOutput());
     }
 
     /**
@@ -24,7 +25,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     public function blankEvent()
     {
         $event = new Event\Blank();
-        $output = $this->generator->event($event)->getOutput();
+        $output = $this->generator->event($event)->getOutput()->getAll();
 
         $this->assertEmptyString($output);
     }
@@ -35,7 +36,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     public function anonymousEventWithDuration()
     {
         $event = new Event\Interval('2015-03-11 12:34:56 Z', '2015-03-11 12:59:59 Z');
-        $output = $this->generator->event($event)->getOutput();
+        $output = $this->generator->event($event)->getOutput()->getAll();
 
         $this->assertNonEmptyString($output);
         $this->assertEventWrapper($output);
@@ -49,7 +50,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     public function namedIntervalEvent()
     {
         $event = new Event\Interval('2015-03-11 12:34:56 Z', '2015-03-11 12:59:59 Z', 'Your kind of meeting');
-        $output = $this->generator->event($event)->getOutput();
+        $output = $this->generator->event($event)->getOutput()->getAll();
 
         $this->assertNonEmptyString($output);
         $this->assertEventWrapper($output);
@@ -63,7 +64,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     public function eventEnforceTimezone()
     {
         $event = new Event\Interval('2015-03-11 12:34:56 Europe/Bucharest', '2015-03-11 12:59:59 Europe/Bucharest');
-        $output = $this->generator->event($event)->getOutput();
+        $output = $this->generator->event($event)->getOutput()->getAll();
 
         $this->assertNonEmptyString($output);
         $this->assertEventWrapper($output);
@@ -76,7 +77,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     public function eventDefaultTimezone()
     {
         $event = new Event\Interval('2015-03-11 12:34:56', '2015-03-11 12:59:59');
-        $output = $this->generator->event($event)->getOutput();
+        $output = $this->generator->event($event)->getOutput()->getAll();
 
         $this->assertNonEmptyString($output);
         $this->assertEventWrapper($output);
@@ -91,7 +92,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     public function blankCalendar()
     {
         $calendar = new Calendar();
-        $output = $this->generator->calendar($calendar)->getOutput();
+        $output = $this->generator->calendar($calendar)->getOutput()->getAll();
 
         $this->assertEmptyString($output);
     }
@@ -102,7 +103,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     public function namedBlankCalendar()
     {
         $calendar = new Calendar('Automated Test Calendar');
-        $output = $this->generator->calendar($calendar)->getOutput();
+        $output = $this->generator->calendar($calendar)->getOutput()->getAll();
 
         $this->assertNonEmptyString($output);
         $this->assertContains('X-WR-CALNAME:Automated Test Calendar', $output);
@@ -118,7 +119,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $calendar = new Calendar();
         $calendar->add(new Event\Interval('2015-03-11 12:34:56 Z', '2015-03-11 12:59:59 Z'));
 
-        $output = $this->generator->calendar($calendar)->getOutput();
+        $output = $this->generator->calendar($calendar)->getOutput()->getAll();
         date_default_timezone_set($oldTimezone);
 
         $this->assertNonEmptyString($output);
