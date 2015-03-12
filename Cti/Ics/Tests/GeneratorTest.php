@@ -40,7 +40,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertNonEmptyString($output);
         $this->assertEventWrapper($output);
         $this->assertEventMandatories($output);
-        $this->assertNotContains('DESCRIPTION:', $output);
+        $this->assertNotContains('SUMMARY:', $output);
     }
 
     /**
@@ -54,7 +54,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertNonEmptyString($output);
         $this->assertEventWrapper($output);
         $this->assertEventMandatories($output);
-        $this->assertContains('DESCRIPTION:', $output);
+        $this->assertContains('SUMMARY:', $output);
     }
 
     /**

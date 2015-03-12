@@ -22,7 +22,7 @@ class Generator
         $this->output .= sprintf("DTSTART;TZID=%s:%s\r\n", $item->getStart()->getTimezone()->getName(), $item->getStart()->format('Ymd\THis'));
         $this->output .= sprintf("DTEND;TZID=%s:%s\r\n", $item->getEnd()->getTimezone()->getName(), $item->getEnd()->format('Ymd\THis'));
         if (strlen($item->getName())) {
-            $this->output .= sprintf("DESCRIPTION:%s\r\n", $item->getName());
+            $this->output .= sprintf("SUMMARY:%s\r\n", $item->getName());
         }
         $this->output .= "END:VEVENT\r\n";
 
