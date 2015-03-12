@@ -20,9 +20,18 @@ class Calendar
      */
     protected $timezone;
 
-    public function __construct()
+    /**
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * @param string $name
+     */
+    public function __construct($name = '')
     {
         $this->setTimezone(date_default_timezone_get());
+        $this->setName($name);
     }
 
     /**
@@ -71,5 +80,25 @@ class Calendar
     public function getTimezone()
     {
         return $this->timezone;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return Calendar
+     */
+    public function setName($value)
+    {
+        $this->name = $value;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }

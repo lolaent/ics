@@ -88,7 +88,19 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function calendarWithOneEvent()
+    public function namedBlankCalendar()
+    {
+        $calendar = new Calendar('Automated Test Calendar');
+        $output = $this->generator->calendar($calendar)->getOutput();
+
+        $this->assertNonEmptyString($output);
+        $this->assertContains('X-WR-CALNAME:Automated Test Calendar', $output);
+    }
+
+    /**
+     * @test
+     */
+    public function calendarUnnamedOneEvent()
     {
         $oldTimezone = date_default_timezone_get();
         date_default_timezone_set('Europe/Amsterdam');
@@ -102,6 +114,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertCalendarWrapper($output);
         $this->assertCalendarTimezone($output);
         $this->assertContains('TZID:Europe/Amsterdam', $output);
+        $this->assertNotContains('X-WR-CALNAME', $output);
         $this->assertEventWrapper($output);
     }
 

@@ -28,7 +28,7 @@ class Generator
 
     public function calendar(Calendar $item)
     {
-        if ($item->isEmpty()) {
+        if ($item->isEmpty() && 0 == strlen($item->getName())) {
             return $this;
         }
 
@@ -36,6 +36,9 @@ class Generator
         $this->output .= "VERSION:2.0\r\n";
         $this->output .= sprintf("PRODID:-//%s//%s//EN\r\n", 'Cloudtroopers Intl', 'CTI Ics Generator 1.0');
         $this->output .= "CALSCALE:GREGORIAN\r\n";
+        if (strlen($item->getName())) {
+            $this->output .= sprintf("X-WR-CALNAME:%s\r\n", $item->getName());
+        }
 
         $this->output .= "BEGIN:VTIMEZONE\r\n";
         $this->output .= sprintf("TZID:%s\r\n", $item->getTimezone());
