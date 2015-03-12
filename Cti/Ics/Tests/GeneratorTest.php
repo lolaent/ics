@@ -46,7 +46,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function namedEventWithDuration()
+    public function namedIntervalEvent()
     {
         $event = new Event\Interval('2015-03-11 12:34:56 Z', '2015-03-11 12:59:59 Z', 'Your kind of meeting');
         $output = $this->generator->event($event)->getOutput();
