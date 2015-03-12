@@ -28,6 +28,19 @@ class Generator
 
     public function calendar(Calendar $item)
     {
+        if ($item->isEmpty()) {
+            return $this;
+        }
+
+        $this->output .= "BEGIN:VCALENDAR\r\n";
+        $this->output .= sprintf("PRODID:-//%s//%s//EN\r\n", 'Cloudtroopers Intl', 'CTI Ics Generator 1.0');
+        $this->output .= "CALSCALE:GREGORIAN\r\n";
+        $this->output .= "VERSION:2.0\r\n";
+        foreach ($item->getAll() as $event) {
+            $this->event($event);
+        }
+        $this->output .= "END:VCALENDAR\r\n";
+
         return $this;
     }
 
