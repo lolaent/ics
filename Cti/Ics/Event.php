@@ -18,10 +18,23 @@ abstract class Event
      */
     protected $name;
 
-    public function __construct($start = null, $end = null)
+    /**
+     * @var string
+     */
+    protected $description;
+
+    /**
+     * @param string|null $start
+     * @param string|null $end
+     * @param string|null $name
+     * @param string|null $description
+     */
+    public function __construct($start = null, $end = null, $name = null, $description = null)
     {
         $this->setStart($start);
         $this->setEnd($end);
+        $this->setName($name);
+        $this->setDescription($description);
     }
 
     public function getStart()
@@ -81,5 +94,25 @@ abstract class Event
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return Event
+     */
+    public function setDescription($value)
+    {
+        $this->description = $value;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 }

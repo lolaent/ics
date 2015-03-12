@@ -42,6 +42,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEventWrapper($output);
         $this->assertEventMandatories($output);
         $this->assertNotContains('SUMMARY:', $output);
+        $this->assertNotContains('DESCRIPTION:', $output);
     }
 
     /**
@@ -56,6 +57,21 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEventWrapper($output);
         $this->assertEventMandatories($output);
         $this->assertContains('SUMMARY:', $output);
+    }
+
+    /**
+     * @test
+     */
+    public function namedIntervalEventWithDescription()
+    {
+        $event = new Event\Interval('2015-03-11 12:34:56 Z', '2015-03-11 12:59:59 Z', 'Meeting!', 'Short description');
+        $output = $this->generator->event($event)->getOutput()->getAll();
+
+        $this->assertNonEmptyString($output);
+        $this->assertEventWrapper($output);
+        $this->assertEventMandatories($output);
+        $this->assertContains('SUMMARY:', $output);
+        $this->assertContains('DESCRIPTION:', $output);
     }
 
     /**

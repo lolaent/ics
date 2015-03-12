@@ -34,6 +34,9 @@ class Generator
         if (strlen($item->getName())) {
             $this->output->add(sprintf('SUMMARY:%s', $item->getName()));
         }
+        if (strlen($item->getDescription())) {
+            $this->output->add(sprintf('DESCRIPTION:%s', $item->getDescription()));
+        }
         $this->output->add('END:VEVENT');
 
         return $this;

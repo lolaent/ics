@@ -14,15 +14,13 @@ class Interval extends Event
     /**
      * Enforces start and end dates to be non-null.
      *
-     * @param string $start
-     * @param string $end
+     * @inheritdoc
      */
-    public function __construct($start, $end, $name = '')
+    public function __construct($start, $end, $name = null, $description = null)
     {
         $this->validate($start, $end);
 
-        parent::__construct($start, $end);
-        $this->setName($name);
+        parent::__construct($start, $end, $name, $description);
     }
 
     /**
