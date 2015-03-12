@@ -5,6 +5,7 @@ namespace Cti\Ics\Tests;
 use Cti\Ics\Generator;
 use Cti\Ics\Event;
 use Cti\Ics\Calendar;
+use Cti\Ics\Output\FileOutput;
 use Cti\Ics\Output\StringOutput;
 
 class GeneratorTest extends \PHPUnit_Framework_TestCase
@@ -144,6 +145,41 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('TZID:Europe/Amsterdam', $output);
         $this->assertNotContains('X-WR-CALNAME', $output);
         $this->assertEventWrapper($output);
+    }
+
+    /**
+     * @test
+     */
+    public function toFile()
+    {
+        $workspace = $this->prepareFilesystemWorkspace();
+        $path = $workspace . DIRECTORY_SEPARATOR . 'generated.ics';
+
+        $this->generator = new Generator(new FileOutput($path));
+        $calendar = new Calendar();
+        $calendar->add(new Event\Interval('2015-03-11 12:34:56 Z', '2015-03-11 12:59:59 Z'));
+        $output = $this->generator->calendar($calendar)->getOutput()->getAll();
+
+        $this->assertTrue($output); // more a status flag
+        $this->assertFileExists($path);
+        $rawCalendar = file_get_contents($path);
+
+        $this->assertNonEmptyString($rawCalendar);
+        $this->assertCalendarWrapper($rawCalendar);
+        $this->assertCalendarTimezone($rawCalendar);
+        $this->assertNotContains('X-WR-CALNAME', $rawCalendar);
+        $this->assertEventWrapper($rawCalendar);
+
+        unlink($path);
+        $this->assertFileNotExists($path);
+    }
+
+    private function prepareFilesystemWorkspace()
+    {
+        $workspace = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.time().rand(0, 1000);
+        mkdir($workspace, 0777, true);
+
+        return realpath($workspace);
     }
 
     private function assertEmptyString($output)
