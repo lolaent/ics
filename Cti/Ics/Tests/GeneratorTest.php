@@ -21,9 +21,9 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function emptyEvent()
+    public function blankEvent()
     {
-        $event = new Event();
+        $event = new Event\Blank();
         $output = $this->generator->event($event)->getOutput();
 
         $this->assertEmptyString($output);
@@ -34,7 +34,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function eventWithDuration()
     {
-        $event = new Event('2015-03-11 12:34:56 Z', '2015-03-11 12:59:59 Z');
+        $event = new Event\Interval('2015-03-11 12:34:56 Z', '2015-03-11 12:59:59 Z');
         $output = $this->generator->event($event)->getOutput();
 
         $this->assertInternalType('string', $output);
@@ -48,7 +48,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function emptyCalendar()
+    public function blankCalendar()
     {
         $calendar = new Calendar();
         $output = $this->generator->calendar($calendar)->getOutput();

@@ -1,7 +1,7 @@
 <?php
 namespace Cti\Ics;
 
-class Event
+abstract class Event
 {
     /**
      * @var \DateTime
