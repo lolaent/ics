@@ -38,8 +38,37 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $output = $this->generator->event($event)->getOutput();
 
         $this->assertInternalType('string', $output);
-        $this->assertContains('BEGIN:VEVENT', $output);
-        $this->assertContains('END:VEVENT', $output);
+        $this->assertEventWrapper($output);
+        $this->assertContains('UID:', $output);
+        $this->assertContains('DTSTART', $output);
+        $this->assertContains('DTEND', $output);
+    }
+
+    /**
+     * @test
+     */
+    public function eventEnforceTimezone()
+    {
+        $event = new Event\Interval('2015-03-11 12:34:56 Europe/Bucharest', '2015-03-11 12:59:59 Europe/Bucharest');
+        $output = $this->generator->event($event)->getOutput();
+
+        $this->assertInternalType('string', $output);
+        $this->assertEventWrapper($output);
+        $this->assertContains('UID:', $output);
+        $this->assertContains('DTSTART', $output);
+        $this->assertContains('DTEND', $output);
+    }
+
+    /**
+     * @test
+     */
+    public function eventDefaultTimezone()
+    {
+        $event = new Event\Interval('2015-03-11 12:34:56', '2015-03-11 12:59:59');
+        $output = $this->generator->event($event)->getOutput();
+
+        $this->assertInternalType('string', $output);
+        $this->assertEventWrapper($output);
         $this->assertContains('UID:', $output);
         $this->assertContains('DTSTART', $output);
         $this->assertContains('DTEND', $output);
@@ -67,10 +96,8 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $output = $this->generator->calendar($calendar)->getOutput();
 
         $this->assertInternalType('string', $output);
-        $this->assertContains('BEGIN:VCALENDAR', $output);
-        $this->assertContains('END:VCALENDAR', $output);
-        $this->assertContains('BEGIN:VEVENT', $output);
-        $this->assertContains('END:VEVENT', $output);
+        $this->assertCalendarWrapper($output);
+        $this->assertEventWrapper($output);
 
         $this->assertContains('PRODID', $output);
         $this->assertContains('CALSCALE:GREGORIAN', $output);
@@ -81,5 +108,17 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInternalType('string', $output);
         $this->assertEquals('', $output);
+    }
+
+    private function assertEventWrapper($output)
+    {
+        $this->assertContains('BEGIN:VEVENT', $output);
+        $this->assertContains('END:VEVENT', $output);
+    }
+
+    private function assertCalendarWrapper($output)
+    {
+        $this->assertContains('BEGIN:VCALENDAR', $output);
+        $this->assertContains('END:VCALENDAR', $output);
     }
 }

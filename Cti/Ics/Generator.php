@@ -19,8 +19,8 @@ class Generator
 
         $this->output .= "BEGIN:VEVENT\r\n";
         $this->output .= sprintf("UID:%s\r\n", md5($item->getStart()->format('YmdHis')));
-        $this->output .= sprintf("DTSTART;VALUE=DATE:%s\r\n", $item->getStart()->format('Ymd\THis.P'));
-        $this->output .= sprintf("DTEND;VALUE=DATE:%s\r\n", $item->getEnd()->format('Ymd\THis.P'));
+        $this->output .= sprintf("DTSTART;TZID=%s:%s\r\n", $item->getStart()->getTimezone()->getName(), $item->getStart()->format('Ymd\THis'));
+        $this->output .= sprintf("DTEND;TZID=%s:%s\r\n", $item->getEnd()->getTimezone()->getName(), $item->getEnd()->format('Ymd\THis'));
         $this->output .= "END:VEVENT\r\n";
 
         return $this;
