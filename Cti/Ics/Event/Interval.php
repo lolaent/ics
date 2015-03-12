@@ -17,8 +17,9 @@ class Interval extends Event
      * @param string $start
      * @param string $end
      */
-    public function __construct($start, $end)
+    public function __construct($start, $end, $name = '')
     {
         parent::__construct($start, $end);
+        $this->setName($name);
     }
 }

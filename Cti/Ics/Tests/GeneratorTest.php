@@ -32,16 +32,29 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function eventWithDuration()
+    public function anonymousEventWithDuration()
     {
         $event = new Event\Interval('2015-03-11 12:34:56 Z', '2015-03-11 12:59:59 Z');
         $output = $this->generator->event($event)->getOutput();
 
         $this->assertNonEmptyString($output);
         $this->assertEventWrapper($output);
-        $this->assertContains('UID:', $output);
-        $this->assertContains('DTSTART', $output);
-        $this->assertContains('DTEND', $output);
+        $this->assertEventMandatories($output);
+        $this->assertNotContains('DESCRIPTION:', $output);
+    }
+
+    /**
+     * @test
+     */
+    public function namedEventWithDuration()
+    {
+        $event = new Event\Interval('2015-03-11 12:34:56 Z', '2015-03-11 12:59:59 Z', 'Your kind of meeting');
+        $output = $this->generator->event($event)->getOutput();
+
+        $this->assertNonEmptyString($output);
+        $this->assertEventWrapper($output);
+        $this->assertEventMandatories($output);
+        $this->assertContains('DESCRIPTION:', $output);
     }
 
     /**
@@ -54,9 +67,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNonEmptyString($output);
         $this->assertEventWrapper($output);
-        $this->assertContains('UID:', $output);
-        $this->assertContains('DTSTART', $output);
-        $this->assertContains('DTEND', $output);
+        $this->assertEventMandatories($output);
     }
 
     /**
@@ -134,6 +145,13 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertContains('BEGIN:VEVENT', $output);
         $this->assertContains('END:VEVENT', $output);
+    }
+
+    private function assertEventMandatories($output)
+    {
+        $this->assertContains('UID:', $output);
+        $this->assertContains('DTSTART', $output);
+        $this->assertContains('DTEND', $output);
     }
 
     private function assertCalendarWrapper($output)

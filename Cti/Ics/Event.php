@@ -13,6 +13,11 @@ abstract class Event
      */
     protected $end;
 
+    /**
+     * @var string
+     */
+    protected $name;
+
     public function __construct($start = null, $end = null)
     {
         $this->setStart($start);
@@ -55,5 +60,25 @@ abstract class Event
         }
 
         return $dateTime;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return Event
+     */
+    public function setName($value)
+    {
+        $this->name = $value;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }
