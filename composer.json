@@ -2,6 +2,12 @@
   "name"        : "cti/ics",
   "description" : "ics management",
   "type"        : "library",
+  "keywords"    : [
+    "ics",
+    "iCal",
+    "calendar",
+    "RFC 5545"
+  ],
   "authors"     : [
     {
       "name"  : "Georgiana Gligor",
