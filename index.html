@@ -37,6 +37,46 @@
 <p><a href="https://travis-ci.org/lolaent/ics"><img src="https://travis-ci.org/lolaent/ics.svg?branch=master" alt="Build Status"></a></p>
 
 <p>Aim of current library is to allow easy manipulation of <code>.ics</code> files.</p>
+
+<h2>
+<a id="install" class="anchor" href="#install" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install</h2>
+
+<h3>
+<a id="using-composer" class="anchor" href="#using-composer" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using Composer</h3>
+
+<p>Add</p>
+
+<pre><code>  "cti/ics": "0.1"
+</code></pre>
+
+<p>to the <code>"require"</code> section of your <code>composer.json</code> file.</p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<h3>
+<a id="named-calendar-with-timezone-and-two-events" class="anchor" href="#named-calendar-with-timezone-and-two-events" aria-hidden="true"><span class="octicon octicon-link"></span></a>Named calendar, with timezone, and two events</h3>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-c">// initialise calendar</span></span>
+<span class="pl-s2"><span class="pl-vo">$calendar</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-s3">Calendar</span>(<span class="pl-s1"><span class="pl-pds">'</span>Automated Test<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>Europe/London<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-c">// add events to it</span></span>
+<span class="pl-s2"><span class="pl-vo">$calendar</span><span class="pl-k">-&gt;</span>add(<span class="pl-k">new</span> <span class="pl-s3">Event\</span><span class="pl-s3">Interval</span>(<span class="pl-s1"><span class="pl-pds">'</span>2015-03-13 10:05:00<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>2015-03-13 10:19:59<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>Daily scrum<span class="pl-pds">'</span></span>));</span>
+<span class="pl-s2"><span class="pl-vo">$calendar</span><span class="pl-k">-&gt;</span>add(<span class="pl-k">new</span> <span class="pl-s3">Event\</span><span class="pl-s3">Interval</span>(<span class="pl-s1"><span class="pl-pds">'</span>2015-03-13 10:30:00<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>2015-03-13 10:49:59<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>Weekly project review<span class="pl-pds">'</span></span>));</span></pre></div>
+
+<h3>
+<a id="saving-to-file" class="anchor" href="#saving-to-file" aria-hidden="true"><span class="octicon octicon-link"></span></a>Saving to file</h3>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-vo">$path</span> <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">'</span>/tmp/generated.ics<span class="pl-pds">'</span></span>;</span>
+<span class="pl-s2"><span class="pl-vo">$generator</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-s3">Generator</span>(<span class="pl-k">new</span> <span class="pl-s3">FileOutput</span>(<span class="pl-vo">$path</span>));</span>
+<span class="pl-s2"><span class="pl-vo">$generator</span><span class="pl-k">-&gt;</span>calendar(<span class="pl-vo">$calendar</span>)<span class="pl-k">-&gt;</span>getOutput()<span class="pl-k">-&gt;</span>getAll();</span></pre></div>
+
+<h3>
+<a id="output-to-string" class="anchor" href="#output-to-string" aria-hidden="true"><span class="octicon octicon-link"></span></a>Output to string</h3>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-c">// grab the output in a string for later usage</span></span>
+<span class="pl-s2"><span class="pl-vo">$generator</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-s3">Generator</span>(<span class="pl-k">new</span> <span class="pl-s3">StringOutput</span>());</span>
+<span class="pl-s2"><span class="pl-vo">$output</span> <span class="pl-k">=</span> <span class="pl-vo">$generator</span><span class="pl-k">-&gt;</span>calendar(<span class="pl-vo">$calendar</span>)<span class="pl-k">-&gt;</span>getOutput()<span class="pl-k">-&gt;</span>getAll();</span></pre></div>
       </section>
     </div>
 
