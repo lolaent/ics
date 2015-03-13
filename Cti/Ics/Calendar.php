@@ -28,9 +28,9 @@ class Calendar
     /**
      * @param string $name
      */
-    public function __construct($name = '')
+    public function __construct($name = '', $timeZone = '')
     {
-        $this->setTimezone(date_default_timezone_get());
+        $this->setTimezone($timeZone);
         $this->setName($name);
     }
 
@@ -69,6 +69,9 @@ class Calendar
      */
     public function setTimezone($value)
     {
+        if (empty($value)) {
+            $value = date_default_timezone_get();
+        }
         $this->timezone = $value;
 
         return $this;

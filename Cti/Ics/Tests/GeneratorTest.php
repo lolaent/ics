@@ -162,6 +162,15 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('Daily scrum', $output);
         $this->assertContains('Weekly project review', $output);
     }
+    
+    public function namedCalendarForceTimeZone()
+    {
+        $calendar = new Calendar('Automated Test', 'Europe/London');
+        $output = $this->generator->calendar($calendar)->getOutput()->getAll();
+        
+        $this->assertNonEmptyString($output);
+        $this->assertContains('TZID:Europe/London', $output);
+    }
 
     /**
      * @test
