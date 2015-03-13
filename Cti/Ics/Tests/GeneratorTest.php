@@ -146,6 +146,22 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertNotContains('X-WR-CALNAME', $output);
         $this->assertEventWrapper($output);
     }
+    
+    /**
+     * @test
+     */
+    public function calendarTwoEvents()
+    {
+        $calendar = new Calendar();
+        $calendar->add(new Event\Interval('2015-03-13 10:05:00', '2015-03-13 10:19:59', 'Daily scrum'));
+        $calendar->add(new Event\Interval('2015-03-13 10:30:00', '2015-03-13 10:49:59', 'Weekly project review'));
+        
+        $output = $this->generator->calendar($calendar)->getOutput()->getAll();
+        
+        $this->assertNonEmptyString($output);
+        $this->assertContains('Daily scrum', $output);
+        $this->assertContains('Weekly project review', $output);
+    }
 
     /**
      * @test
