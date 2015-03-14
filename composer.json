@@ -23,7 +23,8 @@
     "symfony/filesystem" : "~2.6"
   },
   "require-dev" : {
-    "phpunit/phpunit"    : "4.7.x-dev"
+    "phpunit/phpunit"               : "4.7.x-dev",
+    "codeclimate/php-test-reporter" : "dev-master"
   },
   "autoload": {
     "psr-0": { "Cti\\Ics" : "." }
