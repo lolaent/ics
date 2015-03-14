@@ -14,3 +14,7 @@ script: phpunit --coverage-text
 notifications:
   email:
     - gb@tekkie.ro
+
+after_script:
+  - CODECLIMATE_REPO_TOKEN="75c44bafd5d510d5a8dec4855ff28d120a2f15ee05c0e16d4969c68948542352" vendor/bin/test-reporter --stdout > codeclimate.json
+  - "curl -X POST -d @codeclimate.json -H 'Content-Type: application/json' -H 'User-Agent: Code Climate (PHP Test Reporter v0.1.1)' https://codeclimate.com/test_reports"
