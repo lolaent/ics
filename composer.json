@@ -27,6 +27,6 @@
     "codeclimate/php-test-reporter" : "dev-master"
   },
   "autoload": {
-    "psr-0": { "Cti\\Ics" : "." }
+    "psr-0": { "Cti\\Ics" : "" }
   }
 }
