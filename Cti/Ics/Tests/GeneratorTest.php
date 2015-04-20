@@ -162,6 +162,16 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('Daily scrum', $output);
         $this->assertContains('Weekly project review', $output);
     }
+
+    /**
+     * test
+     */
+    public function setGetOutputInterface()
+    {
+        $stringOutput = new StringOutput();
+        $this->generator->setOutputInterface($stringOutput);
+        $this->assertSame($stringOutput, $this->generator->getOutputInterface());
+    }
     
     public function namedCalendarForceTimeZone()
     {

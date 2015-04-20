@@ -72,4 +72,20 @@ class Generator
     {
         return $this->output;
     }
+
+    /**
+     * @param OutputInterface $outputInterface
+     */
+    public function setOutputInterface(OutputInterface $outputInterface)
+    {
+        $this->output = $outputInterface;
+    }
+
+    /**
+     * @return OutputInterface
+     */
+    public function getOutputInterface()
+    {
+        return $this->output;
+    }
 }
