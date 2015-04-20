@@ -81,7 +81,7 @@ class Generator
      *
      * @return Generator
      */
-    public function setOutput($output)
+    public function setOutput(OutputInterface $output)
     {
         $this->output = $output;
 
