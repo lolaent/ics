@@ -166,11 +166,11 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * test
      */
-    public function setGetOutputInterface()
+    public function setGetOutput()
     {
         $stringOutput = new StringOutput();
-        $this->generator->setOutputInterface($stringOutput);
-        $this->assertSame($stringOutput, $this->generator->getOutputInterface());
+        $this->generator->setOutput($stringOutput);
+        $this->assertSame($stringOutput, $this->generator->getOutput());
     }
     
     public function namedCalendarForceTimeZone()

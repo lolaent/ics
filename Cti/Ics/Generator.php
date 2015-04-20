@@ -68,24 +68,23 @@ class Generator
         return $this;
     }
 
+    /**
+     * @return OutputInterface
+     */
     public function getOutput()
     {
         return $this->output;
     }
 
     /**
-     * @param OutputInterface $outputInterface
+     * @param OutputInterface $output
+     *
+     * @return Generator
      */
-    public function setOutputInterface(OutputInterface $outputInterface)
+    public function setOutput($output)
     {
-        $this->output = $outputInterface;
-    }
+        $this->output = $output;
 
-    /**
-     * @return OutputInterface
-     */
-    public function getOutputInterface()
-    {
-        return $this->output;
+        return $this;
     }
 }
