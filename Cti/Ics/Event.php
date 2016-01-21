@@ -24,17 +24,31 @@ abstract class Event
     protected $description;
 
     /**
+     * @var string
+     */
+    protected $url;
+
+    /**
+     * @var string
+     */
+    protected $location;
+
+    /**
      * @param string|null $start
      * @param string|null $end
      * @param string|null $name
      * @param string|null $description
+     * @param string|null $url
+     * @param string|null $location
      */
-    public function __construct($start = null, $end = null, $name = null, $description = null)
+    public function __construct($start = null, $end = null, $name = null, $description = null, $url = null, $location = null)
     {
         $this->setStart($start);
         $this->setEnd($end);
         $this->setName($name);
         $this->setDescription($description);
+        $this->setUrl($url);
+        $this->setLocation($location);
     }
 
     public function getStart()
@@ -114,5 +128,45 @@ abstract class Event
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return Event
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * @param string $location
+     *
+     * @return Event
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+
+        return $this;
     }
 }

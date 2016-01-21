@@ -37,6 +37,12 @@ class Generator
         if (strlen($item->getDescription())) {
             $this->output->add(sprintf('DESCRIPTION:%s', $item->getDescription()));
         }
+        if (strlen($item->getUrl())) {
+            $this->output->add(sprintf('URL:%s', $item->getUrl()));
+        }
+        if (strlen($item->getLocation())) {
+            $this->output->add(sprintf('LOCATION:%s', $item->getLocation()));
+        }
         $this->output->add('END:VEVENT');
 
         return $this;
