@@ -16,11 +16,11 @@ class Interval extends Event
      *
      * @inheritdoc
      */
-    public function __construct($start, $end, $name = null, $description = null)
+    public function __construct($start, $end, $name = null, $description = null, $url = null, $location = null)
     {
         $this->validate($start, $end);
 
-        parent::__construct($start, $end, $name, $description);
+        parent::__construct($start, $end, $name, $description, $url, $location);
     }
 
     /**
